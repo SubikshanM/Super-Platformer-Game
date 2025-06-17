@@ -253,7 +253,9 @@ function drawText(txt, color) {
   ctx.textAlign = "center";
   ctx.fillText(txt, canvas.width / 2, canvas.height / 2);
   ctx.font = "20px Arial";
-  ctx.fillText("Press ENTER to restart", canvas.width / 2, canvas.height / 2 + 40);
+  const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  const msg = isTouch ? "Tap to restart" : "Press ENTER to restart";
+  ctx.fillText(msg, canvas.width / 2, canvas.height / 2 + 40);
 }
 
 function draw() {
@@ -300,7 +302,15 @@ loadAssets(() => {
   requestAnimationFrame(gameLoop);
 });
 
-// MOBILE TOUCH BUTTON CONTROLS
+// Restart on mobile touch if game is over or won
+canvas.addEventListener("touchstart", () => {
+  if (gameOver || gameWon) location.reload();
+});
+canvas.addEventListener("mousedown", () => {
+  if (gameOver || gameWon) location.reload();
+});
+
+// Mobile Controls
 const leftBtn = document.getElementById("leftBtn");
 const rightBtn = document.getElementById("rightBtn");
 const jumpBtn = document.getElementById("jumpBtn");

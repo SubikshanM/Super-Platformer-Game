@@ -2,18 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mario-style Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Mario Game</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <canvas id="gameCanvas"></canvas>
 
+  <!-- Rotate device message -->
+  <div id="rotateOverlay">
+    <p>Please rotate your device to landscape mode ⤵</p>
+  </div>
+
   <!-- Mobile Controls -->
-  <div class="mobile-controls">
+  <div id="mobileControls">
     <div class="left-controls">
-      <button id="leftBtn">◀</button>
-      <button id="rightBtn">▶</button>
+      <button id="leftBtn">⬅</button>
+      <button id="rightBtn">➡</button>
     </div>
     <div class="right-controls">
       <button id="jumpBtn">⬆</button>
