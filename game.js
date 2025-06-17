@@ -8,7 +8,7 @@ function resizeCanvas() {
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-const gravity = 0.5;
+const gravity = 0.4;
 let cameraX = 0;
 let gameOver = false;
 let gameWon = false;
@@ -125,6 +125,7 @@ function update() {
   player.onGround = false;
   const solids = [...tiles, ...pipes, ...blocks];
   for (const s of solids) {
+    // Top collision
     if (
       player.x < s.x + s.w &&
       player.x + player.w > s.x &&
@@ -136,13 +137,14 @@ function update() {
       player.onGround = true;
     }
 
+    // Bottom hit (from below)
     if (
       player.x < s.x + s.w &&
       player.x + player.w > s.x &&
       player.y < s.y + s.h &&
       player.y + player.h > s.y
     ) {
-      if (player.dy < 0) {
+      if (player.dy < 0 && player.y > s.y + s.h - 10) {
         const block = blocks.find(b => b === s && !b.hit);
         if (block) {
           block.hit = true;
@@ -152,6 +154,14 @@ function update() {
             powerups.push({ x: block.x, y: block.y - 32, w: 32, h: 32, type: "fireball", active: true });
           }
         }
+        player.dy = 0;
+      }
+
+      // Left and right side collisions
+      if (player.dx > 0 && player.x + player.w > s.x && player.x < s.x && player.y + player.h > s.y && player.y < s.y + s.h) {
+        player.x = s.x - player.w;
+      } else if (player.dx < 0 && player.x < s.x + s.w && player.x + player.w > s.x + s.w && player.y + player.h > s.y && player.y < s.y + s.h) {
+        player.x = s.x + s.w;
       }
     }
   }
@@ -289,3 +299,29 @@ function gameLoop() {
 loadAssets(() => {
   requestAnimationFrame(gameLoop);
 });
+
+// MOBILE TOUCH BUTTON CONTROLS
+const leftBtn = document.getElementById("leftBtn");
+const rightBtn = document.getElementById("rightBtn");
+const jumpBtn = document.getElementById("jumpBtn");
+const fireBtn = document.getElementById("fireBtn");
+
+if (leftBtn && rightBtn && jumpBtn && fireBtn) {
+  leftBtn.addEventListener("touchstart", () => keys["ArrowLeft"] = true);
+  leftBtn.addEventListener("touchend", () => keys["ArrowLeft"] = false);
+
+  rightBtn.addEventListener("touchstart", () => keys["ArrowRight"] = true);
+  rightBtn.addEventListener("touchend", () => keys["ArrowRight"] = false);
+
+  jumpBtn.addEventListener("touchstart", () => {
+    if (player.onGround) {
+      keys["Space"] = true;
+      setTimeout(() => keys["Space"] = false, 100);
+    }
+  });
+
+  fireBtn.addEventListener("touchstart", () => {
+    keys["KeyF"] = true;
+    setTimeout(() => keys["KeyF"] = false, 100);
+  });
+}

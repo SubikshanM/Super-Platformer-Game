@@ -1,13 +1,46 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    height: 100%;
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+canvas {
+  display: block;
+  background-color: #87CEEB;
+}
+
+/* Hide mobile controls by default */
+.mobile-controls {
+  display: none;
+}
+
+/* Show only on mobile view */
+@media (max-width: 768px) {
+  .mobile-controls {
+    display: flex;
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 20px;
+    pointer-events: none;
+    z-index: 999;
   }
-  
-  canvas {
-    display: block;
-    width: 100vw;
-    height: 100vh;
+
+  .mobile-controls button {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    pointer-events: all;
   }
-  
+
+  .left-controls,
+  .right-controls {
+    display: flex;
+    gap: 10px;
+  }
+}
