@@ -1,84 +1,75 @@
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Canvas full-screen */
 body, html {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: Arial, sans-serif;
   background: #000;
 }
 
 #gameCanvas {
-  display: block;
-  background: #222;
-}
-
-/* Mobile controls */
-#mobileControls {
-  position: fixed;
-  bottom: 20px;
-  left: 0;
   width: 100%;
-  padding: 0 20px;
+  height: 100%;
+  display: block;
+}
+
+/* Mobile controls hidden by default */
+#mobileControls,
+#rotateOverlay {
   display: none;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1000;
-  pointer-events: none;
 }
 
-#mobileControls .left-controls,
-#mobileControls .right-controls {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-
-#mobileControls button {
-  width: 60px;
-  height: 60px;
-  font-size: 22px;
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  pointer-events: all;
-  user-select: none;
-}
-
-/* Only show controls on mobile landscape */
+/* Show controls in mobile landscape */
 @media screen and (max-width: 768px) and (orientation: landscape) {
   #mobileControls {
-    display: flex !important;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    padding: 0 20px;
+    z-index: 10;
+  }
+
+  .left-controls,
+  .right-controls {
+    display: flex;
+    gap: 10px;
+  }
+
+  #mobileControls button {
+    font-size: 28px;
+    padding: 15px 20px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   }
 }
 
-/* Portrait block overlay */
-#rotateOverlay {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  color: #fff;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  font-size: 24px;
-  padding: 20px;
-  text-align: center;
-}
-
-.rotateMessage {
-  max-width: 90%;
-}
-
-/* Hide overlay in landscape */
-@media screen and (orientation: landscape) {
+/* Show overlay in mobile portrait */
+@media screen and (max-width: 768px) and (orientation: portrait) {
   #rotateOverlay {
-    display: none !important;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 22px;
+    padding: 20px;
+    z-index: 999;
   }
 }

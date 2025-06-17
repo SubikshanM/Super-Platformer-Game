@@ -125,7 +125,6 @@ function update() {
   player.onGround = false;
   const solids = [...tiles, ...pipes, ...blocks];
   for (const s of solids) {
-    // Top collision
     if (
       player.x < s.x + s.w &&
       player.x + player.w > s.x &&
@@ -137,7 +136,6 @@ function update() {
       player.onGround = true;
     }
 
-    // Bottom hit (from below)
     if (
       player.x < s.x + s.w &&
       player.x + player.w > s.x &&
@@ -157,7 +155,6 @@ function update() {
         player.dy = 0;
       }
 
-      // Left and right side collisions
       if (player.dx > 0 && player.x + player.w > s.x && player.x < s.x && player.y + player.h > s.y && player.y < s.y + s.h) {
         player.x = s.x - player.w;
       } else if (player.dx < 0 && player.x < s.x + s.w && player.x + player.w > s.x + s.w && player.y + player.h > s.y && player.y < s.y + s.h) {
@@ -302,7 +299,6 @@ loadAssets(() => {
   requestAnimationFrame(gameLoop);
 });
 
-// Restart on mobile touch if game is over or won
 canvas.addEventListener("touchstart", () => {
   if (gameOver || gameWon) location.reload();
 });
@@ -310,7 +306,6 @@ canvas.addEventListener("mousedown", () => {
   if (gameOver || gameWon) location.reload();
 });
 
-// Mobile Controls
 const leftBtn = document.getElementById("leftBtn");
 const rightBtn = document.getElementById("rightBtn");
 const jumpBtn = document.getElementById("jumpBtn");
@@ -335,3 +330,29 @@ if (leftBtn && rightBtn && jumpBtn && fireBtn) {
     setTimeout(() => keys["KeyF"] = false, 100);
   });
 }
+
+// 📱 Mobile Orientation + Control Logic
+function checkOrientation() {
+  const overlay = document.getElementById("rotateOverlay");
+  const controls = document.getElementById("mobileControls");
+
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isLandscape = window.innerWidth > window.innerHeight;
+
+  if (isMobile) {
+    if (isLandscape) {
+      overlay.style.display = "none";
+      controls.style.display = "flex";
+    } else {
+      overlay.style.display = "flex";
+      controls.style.display = "none";
+    }
+  } else {
+    overlay.style.display = "none";
+    controls.style.display = "none";
+  }
+}
+
+window.addEventListener("load", checkOrientation);
+window.addEventListener("resize", checkOrientation);
+window.addEventListener("orientationchange", checkOrientation);
