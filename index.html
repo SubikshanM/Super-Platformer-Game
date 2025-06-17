@@ -2,13 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Mario Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mario Style Platformer</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="favicon.png" />
 </head>
 <body>
   <canvas id="gameCanvas"></canvas>
+
+  <!-- Landscape-only warning overlay for portrait mode -->
+  <div id="rotateOverlay">
+    Please rotate your device to landscape mode to play the game.
+  </div>
 
   <!-- Mobile Controls -->
   <div id="mobileControls">
@@ -20,11 +24,6 @@
       <button id="jumpBtn">🔼</button>
       <button id="fireBtn">🔥</button>
     </div>
-  </div>
-
-  <!-- Overlay shown in portrait mode -->
-  <div id="rotateOverlay">
-    <div class="rotateMessage">🔄 Please rotate your device to landscape mode</div>
   </div>
 
   <script src="game.js"></script>
